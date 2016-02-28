@@ -23,10 +23,6 @@ public class CreaNewGroupJ {
     public void setUp() throws Exception {
         wd = new FirefoxDriver();
         wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-    }
-    
-    @Test
-    public void CreaNewGroupJ() {
         wd.get("http://localhost:8081/addressbook/");
         wd.findElement(By.id("content")).click();
         wd.findElement(By.name("user")).click();
@@ -37,6 +33,11 @@ public class CreaNewGroupJ {
         wd.findElement(By.name("pass")).clear();
         wd.findElement(By.name("pass")).sendKeys("secret");
         wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
+    }
+    
+    @Test
+    public void testCreaNewGroupJ() {
+
         wd.findElement(By.linkText("groups")).click();
         wd.findElement(By.name("new")).click();
         wd.findElement(By.name("group_name")).click();

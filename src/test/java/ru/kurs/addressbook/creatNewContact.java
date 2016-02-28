@@ -1,8 +1,9 @@
 package ru.kurs.addressbook;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeTest;
+
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +13,7 @@ import org.openqa.selenium.*;
 public class creatNewContact {
     FirefoxDriver wd;
     
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
         wd = new FirefoxDriver();
         wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS); wd.get("http://localhost:8081/addressbook/edit.php");
@@ -79,7 +80,7 @@ public class creatNewContact {
         wd.findElement(By.linkText("add new")).click();
     }
 
-    @After
+    @AfterTest
     public void tearDown() {
         wd.quit();
     }

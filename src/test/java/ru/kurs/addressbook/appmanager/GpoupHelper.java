@@ -24,8 +24,7 @@ public class GpoupHelper extends HelperBase {
     }
 
     public void initGoupeCreation() {
-        //click(By.name("new"));
-        click(By.name("group_name"));
+         click(By.name("group_name"));
     }
 
     public void gotoGroupPage() {
@@ -36,7 +35,7 @@ public class GpoupHelper extends HelperBase {
         click(By.name("delete"));
     }
 
-    public void selectGroupe() {
+    public void selectGroup() {
         click(By.name("selected[]"));
     }
 

@@ -1,17 +1,16 @@
 package ru.kurs.addressbook.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.*;
+
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by yana on 3/1/2016.
  */
 public class HelperBase {
-    public FirefoxDriver wd;
+    public final WebDriver wd;
 
-    public HelperBase(FirefoxDriver wd) {
+    public HelperBase(WebDriver wd) {
         this.wd = wd;
     }
 
@@ -36,6 +35,17 @@ public class HelperBase {
             return true;
         } catch (NoAlertPresentException e) {
             return false;
+        }
+    }
+
+    protected void acceptAlert() {
+        try {
+            Alert a = wd.switchTo().alert();
+            assertTrue(a != null, "Expected alert does not occur");
+
+            a.accept();
+        } catch (NoAlertPresentException e) {
+            assertTrue(false, "Expected alert does not occur");
         }
     }
 }

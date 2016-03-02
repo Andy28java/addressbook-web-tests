@@ -13,7 +13,7 @@ public class GroupModificationTest extends TestBase {
     public void testGroupModification() {
         final GpoupHelper h = app.getGpoupHelper();
         h.gotoGroupPage();
-        h.selectGroupe();
+        h.selectGroup();
         h.initGroupeModification();
         h.fillGroupeForm(new GroupData("test1", "1", "11"));
         h.submitGroupeModification();

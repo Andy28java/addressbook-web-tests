@@ -9,8 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.*;
+import ru.kurs.addressbook.tests.TestBase;
 
-public class creatNewContact {
+public class CreatNewContact extends TestBase {
     FirefoxDriver wd;
     
     @BeforeTest

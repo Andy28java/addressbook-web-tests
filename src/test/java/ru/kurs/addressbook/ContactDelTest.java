@@ -26,7 +26,7 @@ public class ContactDelTest {
     }
     
     @Test
-    public void ContactDelTest() {
+    public void testContDel() {
         wd.get("http://localhost:8081/addressbook/group.php");
         wd.findElement(By.name("user")).click();
         wd.findElement(By.name("user")).clear();
@@ -44,14 +44,22 @@ public class ContactDelTest {
         //wd.findElement(By.name("selected[]")).click();
 //        wd.findElement(By.xpath("//div[@id='content']/form[2]/div[2]/input")).click();
         wd.findElement(By.xpath("/html/body/div/div[4]/form[2]/div[2]/input")).click();
-       // assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
+        closeAlertAndGetItsText();
         wd.findElement(By.linkText("home")).click();
 
 
     }
 
-    private Matcher closeAlertAndGetItsText() {
-        return null;
+    private void closeAlertAndGetItsText() {
+        try {
+            Alert a = wd.switchTo().alert();
+            assertTrue(a != null, "Expected alert does not occur");
+
+            a.accept();
+
+        } catch (NoAlertPresentException e) {
+            assertTrue(false, "Expected alert does not occur");
+        }
     }
 
     @AfterMethod

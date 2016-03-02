@@ -7,41 +7,35 @@ import ru.kurs.addressbook.model.GroupeData;
 /**
  * Created by yana on 3/1/2016.
  */
-public class GpoupHelper {
-    private FirefoxDriver wd;
+public class GpoupHelper extends HelperBase {
 
     public GpoupHelper(FirefoxDriver wd) {
-        this.wd = wd;
+        super(wd);
     }
 
     public void submitGroupeCreation() {
-        wd.findElement(By.name("submit")).click();
+        click(By.name("submit"));
     }
 
     public void fillGroupeForm(GroupeData groupeData) {
-        wd.findElement(By.name("group_name")).clear();
-        wd.findElement(By.name("group_name")).sendKeys(groupeData.getName());
-        wd.findElement(By.name("group_header")).click();
-        wd.findElement(By.name("group_header")).clear();
-        wd.findElement(By.name("group_header")).sendKeys(groupeData.getHeader());
-        wd.findElement(By.name("group_footer")).click();
-        wd.findElement(By.name("group_footer")).clear();
-        wd.findElement(By.name("group_footer")).sendKeys(groupeData.getFooter());
+        type(By.name("group_name"), groupeData.getName());
+        type(By.name("group_header"), groupeData.getHeader());
+        type(By.name("group_footer"), groupeData.getFooter());
     }
 
     public void initGoupeCreation() {
-        wd.findElement(By.name("group_name")).click();
+        click(By.name("group_name"));
     }
 
     public void gotoGroupPage() {
-        wd.findElement(By.linkText("groups")).click();
+        click(By.linkText("groups"));
     }
 
     public void DeleteSelectedGroups() {
-        wd.findElement(By.name("delete")).click();
+        click(By.name("delete"));
     }
 
     public void selectGroupe() {
-        wd.findElement(By.name("selected[]")).click();
+        click(By.name("selected[]"));
     }
 }

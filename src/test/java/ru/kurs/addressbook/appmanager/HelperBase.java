@@ -2,6 +2,7 @@ package ru.kurs.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
@@ -15,7 +16,12 @@ public class HelperBase {
     }
 
     protected void click(By locator) {
-        wd.findElement(locator).click();
+        WebElement e = wd.findElement(locator);
+        if (e != null) {
+            e.click();
+        } else {
+            throw new RuntimeException("Failed to find elemen by " + locator);
+        }
     }
 
     protected void type(By locator, String text) {

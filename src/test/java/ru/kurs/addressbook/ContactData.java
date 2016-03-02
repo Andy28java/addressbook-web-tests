@@ -1,6 +1,6 @@
 package ru.kurs.addressbook;
 
-public class ContactDate {
+public class ContactData {
     private final String firstname;
     private final String middlename;
     private final String lastname;
@@ -9,7 +9,7 @@ public class ContactDate {
     private final String homephone;
     private final String email2;
 
-    public ContactDate(String firstname, String middlename, String lastname, String nickname, String company, String homephone, String email2) {
+    public ContactData(String firstname, String middlename, String lastname, String nickname, String company, String homephone, String email2) {
         this.firstname = firstname;
         this.middlename = middlename;
         this.lastname = lastname;

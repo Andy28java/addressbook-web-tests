@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import ru.kurs.addressbook.appmanager.ApplicationManager;
@@ -16,7 +17,7 @@ import static org.testng.Assert.assertTrue;
  */
 public class TestBase {
 
-    protected final ApplicationManager app = new ApplicationManager();
+    protected final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
     protected WebDriver wd = null;
 
     public static boolean isAlertPresent(FirefoxDriver wd) {

@@ -1,6 +1,7 @@
 package ru.kurs.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.kurs.addressbook.model.GroupData;
 
@@ -9,7 +10,7 @@ import ru.kurs.addressbook.model.GroupData;
  */
 public class GpoupHelper extends HelperBase {
 
-    public GpoupHelper(FirefoxDriver wd) {
+    public GpoupHelper(WebDriver wd) {
         super(wd);
     }
 

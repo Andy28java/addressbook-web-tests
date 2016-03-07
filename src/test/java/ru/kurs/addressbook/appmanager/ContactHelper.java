@@ -49,8 +49,6 @@ public class ContactHelper extends HelperBase {
         click(By.name("update"));
     }
 
-    public void goToHomePage() {
-        click(By.linkText("home"));
-    }
+    //public void goToHomePage() { click(By.linkText("home")); }
 
 }

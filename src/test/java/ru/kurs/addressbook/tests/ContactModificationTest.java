@@ -17,8 +17,8 @@ public class ContactModificationTest extends TestBase {
         final ContactHelper h = app.getContactHelper();
         h.editContact();
 
-        h.fillContDate(new ContactData("Ivan", "Petrovich", "Surov", "SPI", "Testing", "1234567", "qwe@mail.ru"));
+        h.fillContDate(new ContactData("Ivan", "Petrovich", "Surov",null, null, null, null));// "SPI", "Testing", "1234567", "qwe@mail.ru"));
         h.update();
-        h.goToHomePage();
+       app.getNavigationHelper().goToHomePage();
     }
 }

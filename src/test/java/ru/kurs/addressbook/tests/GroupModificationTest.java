@@ -12,11 +12,11 @@ public class GroupModificationTest extends TestBase {
     @Test
     public void testGroupModification() {
         final GpoupHelper h = app.getGpoupHelper();
-        h.gotoGroupPage();
+        app.getNavigationHelper().gotoGroupPage();
         h.selectGroup();
         h.initGroupeModification();
-        h.fillGroupeForm(new GroupData("test1", "1", "11"));
+        h.fillGroupeForm(new GroupData("test1", null, null)); //"1", "11"));
         h.submitGroupeModification();
-        h.gotoGroupPage();
+        app.getNavigationHelper().gotoGroupPage();
     }
 }

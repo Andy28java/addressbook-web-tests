@@ -7,10 +7,10 @@ public class GroupDelTest extends TestBase {
 
     @Test
     public void testGroupDel() {
-       app.getGpoupHelper().gotoGroupPage();
+       app.getNavigationHelper().gotoGroupPage();
         app.getGpoupHelper().selectGroup();
         app.getGpoupHelper().DeleteSelectedGroups();
-        app.getGpoupHelper().gotoGroupPage();
+        app.getNavigationHelper().gotoGroupPage();
     }
 
 }

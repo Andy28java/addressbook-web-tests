@@ -28,10 +28,6 @@ public class GpoupHelper extends HelperBase {
          click(By.name("group_name"));
     }
 
-    public void gotoGroupPage() {
-        click(By.linkText("groups"));
-    }
-
     public void DeleteSelectedGroups() {
         click(By.name("delete"));
     }

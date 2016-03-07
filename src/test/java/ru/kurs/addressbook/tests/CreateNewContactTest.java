@@ -13,6 +13,6 @@ public class CreateNewContactTest extends TestBase {
         h.addNewContact();
         h.fillContDate(new ContactData("Ivan", "Petrovich", "Surov", "SPI", "Testing", "1234567", "qwe@mail.ru"));
         h.submit();
-        h.goToHomePage();
+       app.getNavigationHelper().goToHomePage();
     }
 }

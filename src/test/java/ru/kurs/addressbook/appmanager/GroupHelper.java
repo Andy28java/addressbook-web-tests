@@ -2,15 +2,18 @@ package ru.kurs.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.kurs.addressbook.model.GroupData;
+
+import java.util.List;
 
 /**
  * Created by yana on 3/1/2016.
  */
-public class GpoupHelper extends HelperBase {
+public class GroupHelper extends HelperBase {
 
-    public GpoupHelper(WebDriver wd) {
+    public GroupHelper(WebDriver wd) {
         super(wd);
     }
 
@@ -42,5 +45,15 @@ public class GpoupHelper extends HelperBase {
 
     public void submitGroupeModification() {
         click(By.name("update"));
+    }
+
+    public boolean hasGroups() {
+        By b = By.xpath("/html/body/div/div[4]/form/span[@class='group']");
+
+        List<WebElement> entries =  wd.findElements(b);
+        if (entries == null || entries.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

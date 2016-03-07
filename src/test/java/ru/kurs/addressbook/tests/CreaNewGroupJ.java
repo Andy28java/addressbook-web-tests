@@ -11,10 +11,10 @@ public class CreaNewGroupJ extends TestBase {
     @Test
     public void testCreaNewGroupJ() {
         app.getNavigationHelper().gotoGroupPage();
-        app.getGpoupHelper().wd.findElement(By.name("new")).click();
-        app.getGpoupHelper().initGoupeCreation();
-        app.getGpoupHelper().fillGroupeForm(new GroupData("test1", "1", "11"));
-        app.getGpoupHelper().submitGroupeCreation();
+        app.getGroupHelper().wd.findElement(By.name("new")).click();
+        app.getGroupHelper().initGoupeCreation();
+        app.getGroupHelper().fillGroupeForm(new GroupData("test1", "1", "11"));
+        app.getGroupHelper().submitGroupeCreation();
         app.getNavigationHelper().gotoGroupPage();
     }
 

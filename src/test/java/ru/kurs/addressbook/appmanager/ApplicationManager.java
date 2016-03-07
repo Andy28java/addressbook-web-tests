@@ -17,7 +17,7 @@ public class ApplicationManager {
 
     private SessionHelper sessionHelper;
     private NavigationHelper navigationHelper;
-    private GpoupHelper gpoupHelper ;
+    private GroupHelper groupHelper;
     private ContactHelper contactHelper;
     private String browser;
 
@@ -35,9 +35,9 @@ public class ApplicationManager {
             wd = new InternetExplorerDriver();
         }
 
-        wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wd.get("http://localhost:8081/addressbook/");
-        gpoupHelper = new GpoupHelper(wd);
+        groupHelper = new GroupHelper(wd);
         contactHelper = new ContactHelper(wd);
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
@@ -60,8 +60,8 @@ public class ApplicationManager {
         wd.quit();
     }
 
-    public GpoupHelper getGpoupHelper() {
-        return gpoupHelper;
+    public GroupHelper getGroupHelper() {
+        return groupHelper;
     }
 
     public NavigationHelper getNavigationHelper() {

@@ -1,9 +1,12 @@
 package ru.kurs.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.kurs.addressbook.model.ContactData;
+
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -29,16 +32,35 @@ public class ContactHelper extends HelperBase {
     }
 
     public void editContact() {
-        click(By.xpath("//table[@id='maintable']/tbody/tr[3]/td[8]/a/img"));
+        click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
     }
 
     public  void selectContact() {
-        click(By.xpath("//table/tbody/tr[4]/td[1]/input"));
+        click(By.xpath("//table/tbody/tr[2]/td[1]/input"));
     }
 
-    public void deleteSelectedContact() {
+        public void deleteSelectedContact() {
         click(By.xpath("/html/body/div/div[4]/form[2]/div[2]/input"));
         acceptAlert();
+    }
+
+    public boolean hasContacts() {
+        By b = By.xpath("//table[@id='maintable']/tbody/tr[2]");
+
+        try {
+            WebElement e = wd.findElement(b);
+
+            return (b != null);
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+        /*
+        List<WebElement> entries =  wd.findElements(b);
+        if (entries == null || entries.isEmpty()) {
+            return false;
+        }
+        return true;
+        */
     }
 
     public void submit() {

@@ -1,7 +1,8 @@
 package ru.kurs.addressbook.tests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
-import ru.kurs.addressbook.appmanager.GpoupHelper;
+import ru.kurs.addressbook.appmanager.GroupHelper;
 import ru.kurs.addressbook.model.GroupData;
 
 /**
@@ -11,8 +12,15 @@ public class GroupModificationTest extends TestBase {
 
     @Test
     public void testGroupModification() {
-        final GpoupHelper h = app.getGpoupHelper();
+        final GroupHelper h = app.getGroupHelper();
         app.getNavigationHelper().gotoGroupPage();
+        if (!h.hasGroups()) {
+            h.wd.findElement(By.name("new")).click();
+            h.initGoupeCreation();
+            h.fillGroupeForm(new GroupData("test_create_if_does_not_exist", "66", "777"));
+            h.submitGroupeCreation();
+            app.getNavigationHelper().gotoGroupPage();
+        }
         h.selectGroup();
         h.initGroupeModification();
         h.fillGroupeForm(new GroupData("test1", null, null)); //"1", "11"));

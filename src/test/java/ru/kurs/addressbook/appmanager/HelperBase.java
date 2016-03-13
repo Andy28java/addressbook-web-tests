@@ -8,7 +8,7 @@ import static org.testng.Assert.assertTrue;
  * Created by yana on 3/1/2016.
  */
 public abstract class HelperBase {
-    public final WebDriver wd;
+    protected final WebDriver wd;
 
     public HelperBase(WebDriver wd) {
         this.wd = wd;

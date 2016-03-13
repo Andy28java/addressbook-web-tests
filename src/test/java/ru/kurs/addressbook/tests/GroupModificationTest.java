@@ -15,10 +15,7 @@ public class GroupModificationTest extends TestBase {
         final GroupHelper h = app.getGroupHelper();
         app.getNavigationHelper().gotoGroupPage();
         if (!h.hasGroups()) {
-            h.wd.findElement(By.name("new")).click();
-            h.initGoupeCreation();
-            h.fillGroupeForm(new GroupData("test_create_if_does_not_exist", "66", "777"));
-            h.submitGroupeCreation();
+            h.createGroup("test_create_if_does_not_exist", "66", "777");
             app.getNavigationHelper().gotoGroupPage();
         }
         h.selectGroup();

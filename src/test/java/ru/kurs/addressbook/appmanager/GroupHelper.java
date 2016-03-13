@@ -27,6 +27,12 @@ public class GroupHelper extends HelperBase {
         type(By.name("group_footer"), groupeData.getFooter());
     }
 
+    public void createGroup(String name, String header, String footer) {
+        wd.findElement(By.name("new")).click();
+        initGoupeCreation();
+        fillGroupeForm(new GroupData(name, header, footer));
+        submitGroupeCreation();
+            }
     public void initGoupeCreation() {
          click(By.name("group_name"));
     }

@@ -15,10 +15,7 @@ public class GroupDelTest extends TestBase {
        app.getNavigationHelper().gotoGroupPage();
         GroupHelper h = app.getGroupHelper();
         if (!h.hasGroups()) {
-            h.wd.findElement(By.name("new")).click();
-            h.initGoupeCreation();
-            h.fillGroupeForm(new GroupData("test_create_if_does_not_exist", "66", "777"));
-            h.submitGroupeCreation();
+            h.createGroup("test_create_if_does_not_exist", "66", "777");
             app.getNavigationHelper().gotoGroupPage();
         }
         app.getGroupHelper().selectGroup();

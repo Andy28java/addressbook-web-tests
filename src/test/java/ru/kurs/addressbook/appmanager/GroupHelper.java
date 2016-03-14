@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.kurs.addressbook.model.GroupData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,10 +28,16 @@ public class GroupHelper extends HelperBase {
         type(By.name("group_footer"), groupeData.getFooter());
     }
 
+    //
     public void createGroup(String name, String header, String footer) {
+        createGroup(new GroupData(name, header, footer));
+    }
+
+    public void createGroup(GroupData gd)
+    {
         wd.findElement(By.name("new")).click();
         initGoupeCreation();
-        fillGroupeForm(new GroupData(name, header, footer));
+        fillGroupeForm(gd);
         submitGroupeCreation();
             }
     public void initGoupeCreation() {
@@ -41,8 +48,8 @@ public class GroupHelper extends HelperBase {
         click(By.name("delete"));
     }
 
-    public void selectGroup() {
-        click(By.name("selected[]"));
+    public void selectGroup(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void initGroupeModification() {
@@ -61,5 +68,21 @@ public class GroupHelper extends HelperBase {
             return false;
         }
         return true;
+    }public int getGroupCount() {
+       return wd.findElements(By.name("selected[]")).size();
+    }
+
+
+    public List<GroupData> getGroupList() {
+        List<GroupData> groups = new ArrayList<GroupData>();
+        List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+        for (WebElement element : elements) {
+            String name = element.getText();
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            GroupData group = new GroupData(id, name, null, null);
+
+            groups.add(group);
+        }
+        return groups;
     }
 }

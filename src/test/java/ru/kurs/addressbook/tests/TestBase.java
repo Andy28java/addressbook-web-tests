@@ -16,7 +16,6 @@ import static org.testng.Assert.assertTrue;
  * Created by yana on 3/1/2016.
  */
 public class TestBase {
-
     protected final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
     protected WebDriver wd = null;
 

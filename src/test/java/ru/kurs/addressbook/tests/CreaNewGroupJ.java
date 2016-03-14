@@ -1,18 +1,37 @@
 package ru.kurs.addressbook.tests;
 
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import org.openqa.selenium.*;
 import ru.kurs.addressbook.model.GroupData;
+
+import java.util.HashSet;
+import java.util.List;
 
 public class CreaNewGroupJ extends TestBase {
 
     @Test
     public void testCreaNewGroupJ() {
         app.getNavigationHelper().gotoGroupPage();
-        app.getGroupHelper().createGroup("test1", "1", "11");
+        List<GroupData> before = app.getGroupHelper().getGroupList();
+        GroupData group = new GroupData("test1", null, null);
+        app.getGroupHelper().createGroup(group);
         app.getNavigationHelper().gotoGroupPage();
+        List<GroupData> after = app.getGroupHelper().getGroupList();
+        Assert.assertEquals(after.size(),before.size() + 1);
+
+        int max = 0;
+        for (GroupData g : after) {
+            if (g.getId() > max) {
+                max = g.getId();
+            }
+        }
+
+        group.setId(max);
+        before.add(group) ;
+        Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
     }
 
 }

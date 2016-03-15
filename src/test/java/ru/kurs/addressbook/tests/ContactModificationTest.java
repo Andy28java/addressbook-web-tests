@@ -1,5 +1,6 @@
 package ru.kurs.addressbook.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.kurs.addressbook.appmanager.ContactHelper;
 import ru.kurs.addressbook.model.ContactData;
@@ -18,10 +19,13 @@ public class ContactModificationTest extends TestBase {
             h.fillContDate(new ContactData("Ivan2", "Petrovich", "Surov", "SPI", "Testing", "1234567", "qwe@mail.ru"));
             h.submit();
         }
-        h.editContact();
+        int before = h.getContactCount();
+        h.editContact(before - 1);
 
         h.fillContDate(new ContactData("Ivan", "Petrovich", "Surov",null, null, null, null));// "SPI", "Testing", "1234567", "qwe@mail.ru"));
         h.update();
-       app.getNavigationHelper().goToHomePage();
+        app.getNavigationHelper().goToHomePage();
+        int after = h.getContactCount();
+        Assert.assertEquals(after,before);
     }
 }

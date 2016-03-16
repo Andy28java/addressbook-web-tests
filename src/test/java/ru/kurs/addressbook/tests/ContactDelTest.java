@@ -5,7 +5,8 @@ import org.testng.annotations.Test;
 import ru.kurs.addressbook.appmanager.ContactHelper;
 import ru.kurs.addressbook.appmanager.NavigationHelper;
 import ru.kurs.addressbook.model.ContactData;
-import ru.kurs.addressbook.tests.TestBase;
+
+import java.util.List;
 
 public class ContactDelTest extends TestBase {
 
@@ -14,18 +15,25 @@ public class ContactDelTest extends TestBase {
         final ContactHelper h = app.getContactHelper();
         final NavigationHelper n = app.getNavigationHelper();
         n.goToHomePage();
-        int before = h.getContactCount();
         if (!h.hasContacts()) {
-            //h.createNewContact();
-            h.addNewContact();
+           h.addNewContact();
             h.fillContDate(new ContactData("Ivan", "Petrovich", "Surov", "SPI", "Testing", "1234567", "qwe@mail.ru"));
             h.submit();
         }
-        h.selectContact(before - 1);
+        List<ContactData> before = h.getContactList();
+        h.selectContact(before.size() - 1);
         h.deleteSelectedContact();
         n.goToHomePage();
-        int after = h.getContactCount();
+        List<ContactData> after = h.getContactList();
 
-        Assert.assertEquals(after,before - 1);
+        Assert.assertEquals(after.size(),before.size() - 1);
+
+       /* before.remove(before.size() - 1);
+        for (int i = 0; i < after.size();i++ ) {
+            Assert.assertEquals(before.get(i), after.get(i));
+        } почему можно заменить на см ниже? */
+        before.remove(before.size() - 1);
+              Assert.assertEquals(before, after);
+        }
     }
-}
+

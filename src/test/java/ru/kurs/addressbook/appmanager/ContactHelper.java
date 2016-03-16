@@ -6,9 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.kurs.addressbook.model.ContactData;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by yana on 3/2/2016.
@@ -32,7 +31,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void editContact(int index) {
-        click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+        click(By.xpath("//table[@id='maintable']/tbody/tr["+(index +2)+"]/td[8]/a/img"));
     }
 
     /*public void editContact(int index) {
@@ -41,7 +40,7 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//table[@id='maintable']/tbody/tr["+index+"]/td[8]/a/img[@alt='Edit']"));
     }*/
     public  void selectContact(int index) {
-        wd.findElements(By.xpath("//table/tbody/tr[2]/td[1]/input")).get(index).click();
+        wd.findElement(By.xpath("//table/tbody/tr["+(index +2)+"]/td[1]/input")).click();
      }
 
 
@@ -79,6 +78,20 @@ public class ContactHelper extends HelperBase {
 
     public int getContactCount() {
       return wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr/td[1]")).size();
+    }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = wd.findElements(By.name("entry"));
+        for (WebElement element : elements) {
+            List<WebElement> tds = element.findElements(By.tagName("td"));
+            String lastname = tds.get(1).getText();
+            String firstname = tds.get(2).getText();
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            ContactData d = new ContactData(id, firstname, null, lastname, null, null, null, null);
+            contacts.add(d);
+        }
+        return contacts;
     }
 
     //public void goToHomePage() { click(By.linkText("home")); }

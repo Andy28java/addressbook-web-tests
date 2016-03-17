@@ -59,13 +59,7 @@ public class ContactHelper extends HelperBase {
         } catch (NoSuchElementException ex) {
             return false;
         }
-        /*
-        List<WebElement> entries =  wd.findElements(b);
-        if (entries == null || entries.isEmpty()) {
-            return false;
-        }
-        return true;
-        */
+
     }
 
     public void submit() {
@@ -93,7 +87,5 @@ public class ContactHelper extends HelperBase {
         }
         return contacts;
     }
-
-    //public void goToHomePage() { click(By.linkText("home")); }
 
 }

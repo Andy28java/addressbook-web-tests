@@ -37,7 +37,7 @@ public class ApplicationManager {
 
         wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wd.get("http://localhost:8081/addressbook/");
-        groupHelper = new GroupHelper(wd);
+        groupHelper = new GroupHelper(this, wd);
         contactHelper = new ContactHelper(wd);
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
@@ -60,11 +60,11 @@ public class ApplicationManager {
         wd.quit();
     }
 
-    public GroupHelper getGroupHelper() {
+    public GroupHelper group() {
         return groupHelper;
     }
 
-    public NavigationHelper getNavigationHelper() {
+    public NavigationHelper goTo() {
         return navigationHelper;
     }
 
@@ -72,7 +72,7 @@ public class ApplicationManager {
         return wd;
     }
 
-    public ContactHelper getContactHelper() {
+    public ContactHelper contact() {
         return contactHelper;
     }
 }

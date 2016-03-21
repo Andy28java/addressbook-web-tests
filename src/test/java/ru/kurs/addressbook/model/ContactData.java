@@ -1,16 +1,16 @@
 package ru.kurs.addressbook.model;
 
 public class ContactData {
-    private int id;
-    private final String firstname;
-    private final String middlename;
-    private final String lastname;
-    private final String nickname;
-    private final String company;
-    private final String homephone;
-    private final String email2;
+    private int id = Integer.MAX_VALUE;
+    private String firstname;
+    private String middlename;
+    private String lastname;
+    private String nickname;
+    private String company;
+    private String homephone;
+    private String email2;
 
-    public ContactData(String firstname, String middlename, String lastname, String nickname, String company, String homephone, String email2) {
+   /* public ContactData(String firstname, String middlename, String lastname, String nickname, String company, String homephone, String email2) {
         this.id = 0;
         this.firstname = firstname;
         this.middlename = middlename;
@@ -31,7 +31,7 @@ public class ContactData {
         this.homephone = homephone;
         this.email2 = email2;
     }
-
+*/
     public String getFirstname() {
         return firstname;
     }
@@ -64,8 +64,43 @@ public class ContactData {
         return email2;
     }
 
-    public void setId(int id) {
+    public ContactData withId(int id) {
         this.id = id;
+        return this;
+    }
+    public ContactData withFirstname(String firstname) {
+        this.firstname = firstname;
+        return this;
+    }
+
+    public ContactData withMiddlename(String middlename) {
+        this.middlename = middlename;
+        return this;
+    }
+
+    public ContactData withLastname(String lastname) {
+        this.lastname = lastname;
+        return this;
+    }
+
+    public ContactData withNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
+
+    public ContactData withCompany(String company) {
+        this.company = company;
+        return this;
+    }
+
+    public ContactData withHomephone(String homephone) {
+        this.homephone = homephone;
+        return this;
+    }
+
+    public ContactData withEmail2(String email2) {
+        this.email2 = email2;
+        return this;
     }
 
     @Override

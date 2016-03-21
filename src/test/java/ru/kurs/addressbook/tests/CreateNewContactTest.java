@@ -10,20 +10,21 @@ import java.util.List;
 
 public class CreateNewContactTest extends TestBase {
 
-    @Test
+    @Test //(enabled = false)
     public void createNewContact() {
-        final ContactHelper h = app.getContactHelper();
-        List<ContactData> before = h.getContactList();
-        ContactData contact = new ContactData("Ivan", "Petrovich", "Durov", null, null, null, null);
-        h.addNewContact();
-        h.fillContDate(contact);
+        final ContactHelper h = app.contact();
+        app.goTo().homePage();
+        List<ContactData> before = h.list();
+        ContactData contact = new ContactData().withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Durov");
+        h.addContact();
+        h.fillCont(contact);
         h.submit();
-        app.getNavigationHelper().goToHomePage();
-        List<ContactData> after = h.getContactList();
+        app.goTo().homePage();
+        List<ContactData> after = h.list();
 
         Assert.assertEquals(after.size(), before.size() + 1);
 
-        contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
+        contact.withId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
         before.add(contact);
         Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
 

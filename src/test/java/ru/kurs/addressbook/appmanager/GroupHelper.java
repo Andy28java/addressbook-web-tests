@@ -1,9 +1,9 @@
 package ru.kurs.addressbook.appmanager;
 
+import javafx.application.Application;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.kurs.addressbook.model.GroupData;
 
 import java.util.ArrayList;
@@ -13,9 +13,10 @@ import java.util.List;
  * Created by yana on 3/1/2016.
  */
 public class GroupHelper extends HelperBase {
-
-    public GroupHelper(WebDriver wd) {
+    private ApplicationManager app;
+    public GroupHelper(ApplicationManager a, WebDriver wd) {
         super(wd);
+        app = a;
     }
 
     public void submitGroupeCreation() {
@@ -29,17 +30,32 @@ public class GroupHelper extends HelperBase {
     }
 
     //
-    public void createGroup(String name, String header, String footer) {
-        createGroup(new GroupData(name, header, footer));
+    public void create(String name, String header, String footer) {
+        create(new GroupData().withName(name).withHeader(header).withFooter(footer));
     }
 
-    public void createGroup(GroupData gd)
+    public void create(GroupData gd)
     {
         wd.findElement(By.name("new")).click();
         initGoupeCreation();
         fillGroupeForm(gd);
         submitGroupeCreation();
-            }
+    }
+
+    public void modify(int index, GroupData group) {
+        selectGroup(index);
+        initGroupeModification();
+        // GroupData group = new GroupData(before.get(before.size() - 1).getId(), "test1", "test2", "test3");
+        fillGroupeForm(group); //"1", "11"));
+        submitGroupeModification();
+        app.goTo().groupPage();
+    }
+    public void delete(int index) {
+        selectGroup(index);
+        DeleteSelectedGroups();
+        app.goTo().groupPage();
+    }
+
     public void initGoupeCreation() {
          click(By.name("group_name"));
     }
@@ -74,15 +90,13 @@ public class GroupHelper extends HelperBase {
     }
 
 
-    public List<GroupData> getGroupList() {
+    public List<GroupData> list() {
         List<GroupData> groups = new ArrayList<GroupData>();
         List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
         for (WebElement element : elements) {
             String name = element.getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            GroupData group = new GroupData(id, name, null, null);
-
-            groups.add(group);
+            groups.add(new GroupData().withId(id).withName(name));
         }
         return groups;
     }

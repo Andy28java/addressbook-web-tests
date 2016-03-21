@@ -17,10 +17,10 @@ public class ContactHelper extends HelperBase {
         super(wd);
     }
 
-    public void addNewContact() {
+    public void addContact() {
         click(By.linkText("add new"));
     }
-    public void fillContDate(ContactData data) {
+    public void fillCont(ContactData data) {
         type(By.name("firstname"), data.getFirstname());
         type(By.name("middlename"), data.getMiddlename());
         type(By.name("lastname"), data.getLastname());
@@ -74,7 +74,7 @@ public class ContactHelper extends HelperBase {
       return wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr/td[1]")).size();
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements) {
@@ -82,8 +82,7 @@ public class ContactHelper extends HelperBase {
             String lastname = tds.get(1).getText();
             String firstname = tds.get(2).getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            ContactData d = new ContactData(id, firstname, null, lastname, null, null, null, null);
-            contacts.add(d);
+            contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
         }
         return contacts;
     }

@@ -1,7 +1,7 @@
 package ru.kurs.addressbook.tests;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.kurs.addressbook.appmanager.GroupHelper;
 import ru.kurs.addressbook.model.GroupData;
@@ -13,27 +13,31 @@ import java.util.List;
  * Created by yana on 3/2/2016.
  */
 public class GroupModificationTest extends TestBase {
-
-    @Test
-    public void testGroupModification() {
-        final GroupHelper h = app.getGroupHelper();
-        app.getNavigationHelper().gotoGroupPage();
-        if (!h.hasGroups()) {
-            h.createGroup("test_create_if_does_not_exist", "66", "777");
-            app.getNavigationHelper().gotoGroupPage();
+    @BeforeMethod
+    public void ensurePreconditions(){
+        final GroupHelper h = app.group();
+        app.goTo().groupPage();
+        if ( app.group().list().size() == 0) {   //!h.hasGroups()) {
+            h.create(new GroupData().withName("test_create_if_does_not_exist"));
+            app.goTo().groupPage();
         }
-        List<GroupData> before = app.getGroupHelper().getGroupList();
-        h.selectGroup(before.size() - 1);
-        h.initGroupeModification();
-        GroupData group = new GroupData(before.get(before.size() - 1).getId(), "test1", "test2", "test3");
-        h.fillGroupeForm(group); //"1", "11"));
-        h.submitGroupeModification();
-        app.getNavigationHelper().gotoGroupPage();
-        List<GroupData> after = app.getGroupHelper().getGroupList();
+    }
+
+    @Test (enabled = false)
+    public void testGroupModification() {
+        final GroupHelper h = app.group();
+        List<GroupData> before = app.group().list();
+        int index = before.size() - 1;
+        GroupData group = new GroupData()
+                .withId(before.get(index).getId()).withName("test1").withHeader("test2").withFooter("test3");
+        h.modify(index, group);
+        List<GroupData> after = app.group().list();
         Assert.assertEquals(after.size(), before.size());
 
-        before.remove(before.size() - 1);
+        before.remove(index);
         before.add(group);
         Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
     }
+
+
 }

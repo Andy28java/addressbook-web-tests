@@ -1,13 +1,11 @@
 package ru.kurs.addressbook.tests;
 
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.BrowserType;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 import ru.kurs.addressbook.appmanager.ApplicationManager;
 
 import static org.testng.Assert.assertTrue;
@@ -16,7 +14,7 @@ import static org.testng.Assert.assertTrue;
  * Created by yana on 3/1/2016.
  */
 public class TestBase {
-    protected final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
+    protected static final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
     protected WebDriver wd = null;
 
     public static boolean isAlertPresent(FirefoxDriver wd) {
@@ -40,14 +38,14 @@ public class TestBase {
         }
     }
 
-       @BeforeTest
+    @BeforeSuite
     public void setUp() throws Exception {
         app.init();
 
         wd = app.getWebDriver();
     }
 
-    @AfterClass
+    @AfterSuite
     public void tearDown() {
         app.stop();
     }

@@ -20,7 +20,7 @@ public class ContactDelTest extends TestBase {
     public  void ensurePreconditionsCont() {
         final ContactHelper h = app.contact();
         app.goTo().homePage();
-        if (app.contact().list().size() == 0) {   //!h.hasContacts()) {
+        if (app.contact().all().size() == 0) {   //!h.hasContacts()) {
             h.addContact();
             h.fillCont(new ContactData()
                     .withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Surov").withNickname("SPI")

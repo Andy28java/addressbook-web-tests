@@ -8,7 +8,59 @@ public class ContactData {
     private String nickname;
     private String company;
     private String homephone;
+    private String mobilephone;
+    private String workphone;
+    private String address;
+    private String email;
     private String email2;
+    private String email3;
+
+    public String getMobilephone() { return mobilephone;}
+    public ContactData withMobilephone(String mobilephone) {
+        this.mobilephone = mobilephone;
+        return this;
+    }
+
+    public String getHomephone() { return homephone;}
+    public ContactData withHomephone(String homephone) {
+        this.homephone = homephone;
+        return this;
+    }
+
+    public String getWorkphone() { return workphone;}
+    public ContactData withWorkphone(String workphone) {
+        this.workphone = workphone;
+        return this;
+    }
+
+    public String getAddress() { return address;}
+    public ContactData withAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+    public ContactData withEmail2(String email2) {
+        this.email2 = email2;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public ContactData withEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public String getEmail3() {
+        return email3; }
+    public ContactData withEmail3(String email3) {
+        this.email3 = email3;
+        return this;
+    }
 
    /* public ContactData(String firstname, String middlename, String lastname, String nickname, String company, String homephone, String email2) {
         this.id = 0;
@@ -56,14 +108,6 @@ public class ContactData {
         return company;
     }
 
-    public String getHomephone() {
-        return homephone;
-    }
-
-    public String getEmail2() {
-        return email2;
-    }
-
     public ContactData withId(int id) {
         this.id = id;
         return this;
@@ -93,17 +137,7 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withHomephone(String homephone) {
-        this.homephone = homephone;
-        return this;
-    }
-
-    public ContactData withEmail2(String email2) {
-        this.email2 = email2;
-        return this;
-    }
-
-    @Override
+       @Override
     public String toString() {
         return "ContactData{" +
                 "id='" + id + '\'' +

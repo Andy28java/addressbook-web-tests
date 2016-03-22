@@ -21,7 +21,7 @@ public class ContactModificationTest extends TestBase {
     public  void ensurePreconditionsCont() {
         final ContactHelper h = app.contact();
         app.goTo().homePage();
-        if (app.contact().list().size() == 0) {    //!h.hasContacts()) {
+        if (app.contact().all().size() == 0) {    //!h.hasContacts()) {
             h.addContact();
             h.fillCont(new ContactData()
                     .withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Surov").withNickname("SPI")
@@ -29,16 +29,16 @@ public class ContactModificationTest extends TestBase {
             h.submit();
         }
     }
-    @Test //(enabled = false)
+    @Test (enabled = false)
     public void testContactModification() {
         final ContactHelper h = app.contact();
-        Contacts before = h.all();
+        Contacts before = (Contacts) h.all();
         ContactData contact = before.iterator().next();
 
         ContactData modifiedContact = new ContactData()
                 .withId(contact.getId()).withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Surov");
         h.modify(modifiedContact);
-        Contacts after = h.all();
+        Contacts after = (Contacts) h.all();
         assertEquals(after.size(), before.size());
         assertThat(after, equalTo(before.without(contact).withAdded(modifiedContact)));
 

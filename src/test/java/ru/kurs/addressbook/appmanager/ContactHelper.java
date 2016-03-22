@@ -8,7 +8,9 @@ import ru.kurs.addressbook.model.ContactData;
 import ru.kurs.addressbook.model.Contacts;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yana on 3/2/2016.
@@ -109,18 +111,7 @@ public class ContactHelper extends HelperBase {
       return wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr/td[1]")).size();
     }
 
-    public List<ContactData> list() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
-        List<WebElement> elements = wd.findElements(By.name("entry"));
-        for (WebElement element : elements) {
-            List<WebElement> tds = element.findElements(By.tagName("td"));
-            String lastname = tds.get(1).getText();
-            String firstname = tds.get(2).getText();
-            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
-        }
-        return contacts;
-    }
+   /*
     public Contacts all() {
         Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.name("entry"));
@@ -132,6 +123,42 @@ public class ContactHelper extends HelperBase {
             contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
         }
         return contacts;
+    }*/
+
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<ContactData>();
+        List<WebElement> rows = wd.findElements(By.name("entry"));
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            String lastname = cells.get(1).getText();
+            String firstname = cells.get(2).getText();
+            String allAddress = cells.get(3).getText();
+            String[] phones = cells.get(5).getText().split("\n");
+            String[] emails = cells.get(4).getText().split("\n");
+
+            int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
+            contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
+                    .withHomephone(phones[0]).withMobilephone(phones[1]).withWorkphone(phones[2])
+                    .withAddress(allAddress).withEmail(emails[0]).withEmail2(emails[1]).withEmail3(emails[2]));
+        }
+        return contacts;
     }
 
+    public ContactData infoFromEditForm(ContactData contact) {
+        editContact(contact.getId());
+        String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+        String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+        String home = wd.findElement(By.name("home")).getAttribute("value");
+        String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+        String work = wd.findElement(By.name("work")).getAttribute("value");
+        String address = wd.findElement(By.name("address")).getAttribute("value");
+        String email = wd.findElement(By.name("email")).getAttribute("value");
+        String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+        String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+        wd.navigate().back();
+        return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
+                .withHomephone(home).withMobilephone(mobile).withWorkphone(work).withAddress(address)
+                .withEmail(email).withEmail2(email2).withEmail3(email3);
+
+    }
 }

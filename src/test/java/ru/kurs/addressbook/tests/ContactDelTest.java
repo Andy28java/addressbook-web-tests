@@ -8,6 +8,7 @@ import ru.kurs.addressbook.appmanager.NavigationHelper;
 import ru.kurs.addressbook.model.ContactData;
 
 import java.util.List;
+import java.util.Set;
 
 public class ContactDelTest extends TestBase {
 
@@ -23,20 +24,23 @@ public class ContactDelTest extends TestBase {
             h.submit();
         }
     }
-    @Test //(enabled = false)
+    @Test (enabled = false)
     public void testContDel() {
         final ContactHelper h = app.contact();
-        final NavigationHelper n = app.goTo();        n.homePage();
-        List<ContactData> before = h.list();
-        int index = before.size() - 1;
-        h.selectContact(index);
+        final NavigationHelper n = app.goTo();
+        n.homePage();
+        Set<ContactData> before = h.all();
+        ContactData deletedContact = before.iterator().next();
+        //int index = before.size() - 1;
+        //h.selectContact(deletedContact);
+        h.selectContactById(deletedContact.getId());
         h.deleteSelectedContact();
         n.homePage();
-        List<ContactData> after = h.list();
+        Set<ContactData> after = h.all();
 
         Assert.assertEquals(after.size(),before.size() - 1);
 
-        before.remove(index);
+        before.remove(deletedContact);
         Assert.assertEquals(before, after);
     }
 }

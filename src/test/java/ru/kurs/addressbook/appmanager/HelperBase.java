@@ -1,6 +1,7 @@
 package ru.kurs.addressbook.appmanager;
 
 import org.openqa.selenium.*;
+import ru.kurs.addressbook.model.GroupData;
 
 import static org.testng.Assert.assertTrue;
 
@@ -61,6 +62,7 @@ public abstract class HelperBase {
             assertTrue(false, "Expected alert does not occur");
         }
     }
+
 
 
 }

@@ -8,6 +8,7 @@ import ru.kurs.addressbook.model.ContactData;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yana on 3/2/2016.
@@ -26,23 +27,23 @@ public class ContactModificationTest extends TestBase {
             h.submit();
         }
     }
-    @Test //(enabled = false)
+    @Test (enabled = false)
     public void testContactModification() {
         final ContactHelper h = app.contact();
-        List<ContactData> before = h.list();
-        int index = before.size() - 1;
-        h.editContact(index);
-        ContactData contact = new ContactData()
-                .withId(before.get(index).getId()).withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Surov");
-        h.fillCont(contact);
-        h.update();
-        app.goTo().homePage();
-        List<ContactData> after = h.list();
+        Set<ContactData> before = h.all();
+        ContactData contact = before.iterator().next();
+
+        ContactData modifiedContact = new ContactData()
+                .withId(contact.getId()).withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Surov");
+        h.modify(modifiedContact);
+        Set<ContactData> after = h.all();
         Assert.assertEquals(after.size(), before.size());
 
-        before.remove(index);
-        before.add(contact);
-        Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
+        before.remove(contact);
+        before.add(modifiedContact);
+        Assert.assertEquals(before, after);
 
     }
+
+
 }

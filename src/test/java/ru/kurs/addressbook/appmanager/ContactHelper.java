@@ -42,6 +42,10 @@ public class ContactHelper extends HelperBase {
         click(By.cssSelector("a[href='edit.php?id=" + id + "']"));
     }
 
+    public void viewContact(int id) {
+        click(By.cssSelector("a[href='view.php?id=" + id + "']"));
+    }
+
     public void editContact1(int id) {
         WebElement image = null;
         List<WebElement> l = wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']"));
@@ -125,8 +129,8 @@ public class ContactHelper extends HelperBase {
         return contacts;
     }*/
 
-    public Set<ContactData> all() {
-        Set<ContactData> contacts = new HashSet<ContactData>();
+    public Contacts all() {
+        Contacts contacts = new Contacts();
         List<WebElement> rows = wd.findElements(By.name("entry"));
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.tagName("td"));
@@ -137,6 +141,7 @@ public class ContactHelper extends HelperBase {
             String[] emails = cells.get(4).getText().split("\n");
 
             int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
+
             contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
                     .withHomephone(phones[0]).withMobilephone(phones[1]).withWorkphone(phones[2])
                     .withAddress(allAddress).withEmail(emails[0]).withEmail2(emails[1]).withEmail3(emails[2]));
@@ -147,6 +152,7 @@ public class ContactHelper extends HelperBase {
     public ContactData infoFromEditForm(ContactData contact) {
         editContact(contact.getId());
         String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+        String middlename = wd.findElement(By.name("middlename")).getAttribute("value");
         String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
         String home = wd.findElement(By.name("home")).getAttribute("value");
         String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
@@ -156,9 +162,15 @@ public class ContactHelper extends HelperBase {
         String email2 = wd.findElement(By.name("email2")).getAttribute("value");
         String email3 = wd.findElement(By.name("email3")).getAttribute("value");
         wd.navigate().back();
-        return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
+        return new ContactData().withId(contact.getId()).withFirstname(firstname)
+                .withMiddlename(middlename).withLastname(lastname)
                 .withHomephone(home).withMobilephone(mobile).withWorkphone(work).withAddress(address)
                 .withEmail(email).withEmail2(email2).withEmail3(email3);
-
+    }
+    public ContactData infoFromDetailForm(ContactData contact) {
+        viewContact(contact.getId());
+        String details = wd.findElement(By.xpath("//div[@id='content']")).getText();
+        wd.navigate().back();
+        return new ContactData().withId(contact.getId()).withAllDetails(details);
     }
 }

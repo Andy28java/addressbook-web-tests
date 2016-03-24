@@ -34,10 +34,9 @@ public class ContactDetailsTest extends TestBase {
                contact.getHomephone().isEmpty() ? "" : "H: " + contact.getHomephone(),
                contact.getMobilephone().isEmpty() ? "" : "M: " + contact.getMobilephone(),
                contact.getWorkphone().isEmpty() ? "" : "W: " + contact.getWorkphone(),
-
-              getEmailAsString(contact.getEmail()),
-               getEmailAsString(contact.getEmail2()),
-               getEmailAsString(contact.getEmail3()))
+               contact.getEmail().isEmpty() ? "" : contact.getEmail(),
+               contact.getEmail2().isEmpty() ? "" : contact.getEmail2(),
+               contact.getEmail3().isEmpty() ? "" : contact.getEmail3())
                 .stream().filter((s)-> ! s.equals("")).collect(Collectors.joining("\n"));
 
     }

@@ -138,13 +138,13 @@ public class ContactHelper extends HelperBase {
             String firstname = cells.get(2).getText();
             String allAddress = cells.get(3).getText();
             String phones = cells.get(5).getText();
-            String[] emails = cells.get(4).getText().split("\n");
+            String emails = cells.get(4).getText();
 
             int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
 
             contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
                     .withPhones(phones)
-                    .withAddress(allAddress).withEmail(emails[0]).withEmail2(emails[1]).withEmail3(emails[2]));
+                    .withAddress(allAddress).withEmails(emails));
         }
         return contacts;
     }

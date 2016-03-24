@@ -9,9 +9,7 @@ public class ContactData {
     private String company;
     private PhoneInfo phones = new PhoneInfo();
     private String address;
-    private String email;
-    private String email2;
-    private String email3;
+    private EmailInfo emails = new EmailInfo();
     private String allDetails;
 
     public String getAllDetails() {
@@ -49,6 +47,14 @@ public class ContactData {
     public PhoneInfo getPhones() {
         return phones;
     }
+    public ContactData  withEmails(String e) {
+        emails = EmailInfo.getInfo(e);
+        return this;
+    }
+
+    public EmailInfo getEmails() {
+        return emails;
+    }
 
     public String getAddress() { return address;}
     public ContactData withAddress(String address) {
@@ -56,7 +62,24 @@ public class ContactData {
         return this;
     }
 
-    public String getEmail2() {
+    public String getEmail2() { return emails.s;}
+
+    public ContactData withEmail2(String email2) {
+        emails = EmailInfo.getInfo(emails.f, email2, emails.t);
+        return this;
+    }
+    public String getEmail() { return emails.f;}
+
+    public ContactData withEmail(String email) {
+        emails = EmailInfo.getInfo(email, emails.s, emails.t);
+        return this;
+    }
+    public String getEmail3() { return emails.t;}
+    public ContactData withEmail3(String email3) {
+        emails = EmailInfo.getInfo(emails.f, emails.s, email3);
+        return this;
+    }
+    /*public String getEmail2() {
         return email2;
     }
     public ContactData withEmail2(String email2) {
@@ -77,7 +100,7 @@ public class ContactData {
     public ContactData withEmail3(String email3) {
         this.email3 = email3;
         return this;
-    }
+    }*/
 
    /* public ContactData(String firstname, String middlename, String lastname, String nickname, String company, String homephone, String email2) {
         this.id = 0;
@@ -172,6 +195,9 @@ public class ContactData {
 
         if (id != that.id) return false;
         if ((phones != null) ? !phones.equals(that.phones) : that.phones !=null) return false;
+        if ((emails != null) ? !emails.equals(that.emails) : that.emails !=null) {
+            return false;
+        }
         if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
         return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
     }
@@ -183,7 +209,48 @@ public class ContactData {
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         return result;
     }
+    private static class EmailInfo {
+        String f, s, t;
+        String emails;
 
+        private void updateEmails() {
+            emails = f;
+
+            if (f != null && !f.isEmpty()) {
+                emails += "\n";
+            }
+
+            emails += s;
+
+            if (s != null && !s.isEmpty()) {
+                emails += "\n";
+            }
+
+            emails += t;
+        }
+
+        public String toString() {
+            return emails;
+        }
+
+        public static EmailInfo getInfo(String f, String s, String t) {
+            EmailInfo e = new EmailInfo();
+            e.f = f == null ? "" : f;
+            e.s = s == null ? "" : s;
+            e.t = t == null ? "" : t;
+
+            e.updateEmails();
+
+            return e;
+        }
+        public static EmailInfo getInfo(String emails) {
+            EmailInfo p = new EmailInfo();
+
+            p.emails = emails;
+
+            return p;
+        }
+    }
     private static class PhoneInfo {
         String w, m, h;
         String phones;

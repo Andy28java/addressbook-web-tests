@@ -20,10 +20,7 @@ public class ContactPhoneTests  extends TestBase {
 
         assertThat(contact.getPhones(),equalTo(contactInfoFromEditForm.getPhones()));
         assertThat(contact.getAddress(),equalTo(contactInfoFromEditForm.getAddress()));
-        assertThat(contact.getEmail(),equalTo(cleaned(contactInfoFromEditForm.getEmail())));
-        assertThat(contact.getEmail2(),equalTo(cleaned(contactInfoFromEditForm.getEmail2())));
-        assertThat(contact.getEmail3(),equalTo(cleaned(contactInfoFromEditForm.getEmail3())));
-
+        assertThat(contact.getEmails(),equalTo(contactInfoFromEditForm.getEmails()));
     }
     public String cleaned(String phone){
         return phone.replaceAll("\\s", "").replaceAll("[-()]", "");

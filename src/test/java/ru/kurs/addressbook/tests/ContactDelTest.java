@@ -28,7 +28,7 @@ public class ContactDelTest extends TestBase {
             h.submit();
         }
     }
-    @Test //(enabled = false)
+    @Test(enabled = false)
     public void testContDel() {
         final ContactHelper h = app.contact();
         final NavigationHelper n = app.goTo();

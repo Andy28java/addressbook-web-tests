@@ -62,45 +62,24 @@ public class ContactData {
         return this;
     }
 
-    public String getEmail2() { return emails.s;}
+    public String getEmail2() { return emails.email[1].raw;}
 
     public ContactData withEmail2(String email2) {
-        emails = EmailInfo.getInfo(emails.f, email2, emails.t);
+        emails = EmailInfo.getInfo(emails.email[0].raw, email2, emails.email[2].raw);
         return this;
     }
-    public String getEmail() { return emails.f;}
+    public String getEmail() { return emails.email[0].raw;}
 
     public ContactData withEmail(String email) {
-        emails = EmailInfo.getInfo(email, emails.s, emails.t);
+        emails = EmailInfo.getInfo(email, emails.email[1].raw, emails.email[2].raw);
         return this;
     }
-    public String getEmail3() { return emails.t;}
+    public String getEmail3() { return emails.email[2].raw;}
     public ContactData withEmail3(String email3) {
-        emails = EmailInfo.getInfo(emails.f, emails.s, email3);
-        return this;
-    }
-    /*public String getEmail2() {
-        return email2;
-    }
-    public ContactData withEmail2(String email2) {
-        this.email2 = email2;
+        emails = EmailInfo.getInfo(emails.email[0].raw, emails.email[1].raw, email3);
         return this;
     }
 
-    public String getEmail() {
-        return email;
-    }
-    public ContactData withEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public String getEmail3() {
-        return email3; }
-    public ContactData withEmail3(String email3) {
-        this.email3 = email3;
-        return this;
-    }*/
 
    /* public ContactData(String firstname, String middlename, String lastname, String nickname, String company, String homephone, String email2) {
         this.id = 0;
@@ -194,10 +173,11 @@ public class ContactData {
         ContactData that = (ContactData) o;
 
         if (id != that.id) return false;
-        if ((phones != null) ? !phones.equals(that.phones) : that.phones !=null) return false;
+     /*   if ((phones != null) ? !phones.equals(that.phones) : that.phones !=null) return false;
         if ((emails != null) ? !emails.equals(that.emails) : that.emails !=null) {
             return false;
         }
+      */
         if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
         return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
     }
@@ -209,24 +189,69 @@ public class ContactData {
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         return result;
     }
-    private static class EmailInfo {
-        String f, s, t;
+
+    public  static class EmailInfo {
+        public  static class Email {
+            final String raw;
+            public final String decorated;
+
+            public Email(String e) {
+                if (e == null) {
+                    e = "";
+                }
+
+                raw = e;
+
+                int i = e.indexOf("@");
+                if (i == -1) {
+                    decorated = raw;
+                } else {
+                    String domain = e.substring(i + 1);
+                    if (domain.isEmpty()) {
+                        decorated = raw;
+                    } else {
+                        decorated = raw + " (www." + domain + ")";
+                    }
+                }
+            }
+        }
+
+        public final Email email[];
         String emails;
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            EmailInfo emailInfo = (EmailInfo) o;
+
+            return emails != null ? emails.equals(emailInfo.emails) : emailInfo.emails == null;
+
+        }
+
+        @Override
+        public int hashCode() {
+            return emails != null ? emails.hashCode() : 0;
+        }
+
+        protected EmailInfo() {
+            email = new Email[3];
+            for (int i = 0; i < 3; i++) {
+                email[i] = new Email("");
+            }
+
+        }
         private void updateEmails() {
-            emails = f;
-
-            if (f != null && !f.isEmpty()) {
-                emails += "\n";
+            emails = "";
+            String prefix = "";
+            for (Email e : email) {
+                if (!e.raw.isEmpty()) {
+                    emails += prefix;
+                    emails += e.raw;
+                    prefix = "\n";
+                }
             }
-
-            emails += s;
-
-            if (s != null && !s.isEmpty()) {
-                emails += "\n";
-            }
-
-            emails += t;
         }
 
         public String toString() {
@@ -235,9 +260,9 @@ public class ContactData {
 
         public static EmailInfo getInfo(String f, String s, String t) {
             EmailInfo e = new EmailInfo();
-            e.f = f == null ? "" : f;
-            e.s = s == null ? "" : s;
-            e.t = t == null ? "" : t;
+            e.email[0] = new Email(f);
+            e.email[1] = new Email(s);
+            e.email[2] = new Email(t);
 
             e.updateEmails();
 
@@ -259,19 +284,17 @@ public class ContactData {
             return phone.replaceAll("[-() \t]", "");
         }
         private void updatePhones() {
-            phones = h;
+            String[] all = new String[] { h, m, w};
 
-            if (h !=null && !h.isEmpty()) {
-                phones += "\n";
+            String prefix = "";
+            phones = "";
+            for (String p : all) {
+                if (p != null && !p.isEmpty()) {
+                    phones += prefix;
+                    phones += p;
+                    prefix = "\n";
+                }
             }
-
-            phones += m;
-
-            if (m != null && !m.isEmpty()) {
-                phones += "\n";
-            }
-
-            phones += w;
         }
 
         public String toString() {

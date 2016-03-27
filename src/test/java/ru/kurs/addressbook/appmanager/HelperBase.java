@@ -3,6 +3,8 @@ package ru.kurs.addressbook.appmanager;
 import org.openqa.selenium.*;
 import ru.kurs.addressbook.model.GroupData;
 
+import java.io.File;
+
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -34,6 +36,13 @@ public abstract class HelperBase {
             }
         }
     }
+    protected void attach(By locator, File file) {
+
+        if (file != null) {
+               wd.findElement(locator).sendKeys(file.getAbsolutePath());
+            }
+        }
+
 
     public boolean isAlertPresent() {
         try {

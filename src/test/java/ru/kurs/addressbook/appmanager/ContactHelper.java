@@ -33,6 +33,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("company"), data.getCompany());
         type(By.name("home"), data.getHomephone());
         type(By.name("email2"), data.getEmail2());
+        attach(By.name("photo"), data.getPhoto());
     }
 
     /*public void editContact(int index) {

@@ -7,12 +7,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by yana on 3/1/2016.
  */
 public class ApplicationManager {
+    private final Properties properties;
     WebDriver wd;
 
     private SessionHelper sessionHelper;
@@ -21,27 +27,34 @@ public class ApplicationManager {
     private ContactHelper contactHelper;
     private String browser;
 
-    public ApplicationManager(String browser) {
-
+    public ApplicationManager(String browser)  {
+        properties = new Properties();
         this.browser = browser;
-    }
+            }
 
-    public void init() {
-          if (browser == BrowserType.FIREFOX) {
+    public void init() throws IOException {
+        String target = System.getProperty("target", "local");
+        //File pwd = new File(".");
+        //System.out.println("We are here: " + pwd.getAbsolutePath());
+
+        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+          if (browser.equals(BrowserType.FIREFOX)) {
             wd = new FirefoxDriver();
-        } else if (browser == BrowserType.CHROME) {
+        } else if (browser.equals(BrowserType.CHROME)) {
             wd = new ChromeDriver();
-        } else if ( browser == BrowserType.IE) {
+        } else if ( browser.equals(BrowserType.IE)) {
             wd = new InternetExplorerDriver();
-        }
+        } else {
+              throw new RuntimeException("Unsupported browser: " + browser);
+          }
 
         wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wd.get("http://localhost:8081/addressbook/");
+        wd.get(properties.getProperty("web.baseUrl"));
         groupHelper = new GroupHelper(this, wd);
         contactHelper = new ContactHelper(this, wd);
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
-        sessionHelper.login("admin", "secret");
+        sessionHelper.login(properties.getProperty("web.adminLogin"),properties.getProperty("web.adminPassword"));
     }
 
     public void login(String username, String userpasswd) {

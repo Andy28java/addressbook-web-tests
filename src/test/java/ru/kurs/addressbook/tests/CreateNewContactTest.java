@@ -2,6 +2,8 @@ package ru.kurs.addressbook.tests;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -20,43 +22,48 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CreateNewContactTest extends TestBase {
+    Logger logger = LoggerFactory.getLogger(CreateNewContactTest.class);
 
     @DataProvider
     public Iterator<Object[]> validContacts() throws IOException {
         List<Object[]> list = new ArrayList<Object[]>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")));
-        String line = reader.readLine();
-        while (line != null){
-            String[] split = line.split(";");
-            list.add(new Object[]{new ContactData().withFirstname(split[1]).withMiddlename(split[2]).withLastname(split[3])
-            .withAddress(split[4]).withEmail(split[5])});
-            line = reader.readLine();
-        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")))) {
+            String line = reader.readLine();
+            while (line != null) {
+                String[] split = line.split(";");
+                list.add(new Object[]{new ContactData().withFirstname(split[1]).withMiddlename(split[2]).withLastname(split[3])
+                        .withAddress(split[4]).withEmail(split[5])});
+                line = reader.readLine();
+            }
+
         /*list.add(new Object[] {new ContactData().withFirstname("Ivan").withMiddlename("Petrovich").withLastname("Surov")
             .withHomephone("11233456677").withAddress("USA,First St,125").withEmail("sip@nf.com")});
          list.add(new Object[] {new ContactData().withFirstname("Ivan2").withMiddlename("Petrovich2").withLastname("Surov2")
                  .withHomephone("21233456677").withAddress("USA,First St,225").withEmail("sip2@nf.com")});
         list.add(new Object[] {new ContactData().withFirstname("Ivan3").withMiddlename("Petrovich3").withLastname("Surov3")
                 .withHomephone("31233456677").withAddress("USA,First St,325").withEmail("sip3@nf.com")});*/
-        return list.iterator();
+            return list.iterator();
+        }
     }
-
     @DataProvider
     public Iterator<Object[]> validContactsFromJson() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contacts.json"));
-        String json = "";
-        String line = reader.readLine();
-        while (line != null){
-            json += line;
-            line = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contacts.json"))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
+            }.getType());
+            return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
-        Gson gson = new Gson();
-        List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
-        return  contacts.stream().map((g)-> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
 
     @Test(dataProvider = "validContactsFromJson")//(enabled = false)
     public void createNewContact(ContactData contact) {
+
         final ContactHelper h = app.contact();
         app.goTo().homePage();
         Contacts before = (Contacts) app.contact().all();

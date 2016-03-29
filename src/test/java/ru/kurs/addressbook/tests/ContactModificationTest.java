@@ -29,7 +29,7 @@ public class ContactModificationTest extends TestBase {
             h.submit();
         }
     }
-    @Test (enabled = false)
+    @Test (enabled = true)
     public void testContactModification() {
         final ContactHelper h = app.contact();
         Contacts before = (Contacts) h.all();

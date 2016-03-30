@@ -22,7 +22,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CreateNewContactTest extends TestBase {
-    Logger logger = LoggerFactory.getLogger(CreateNewContactTest.class);
+    //Logger logger = LoggerFactory.getLogger(CreateNewContactTest.class);
 
     @DataProvider
     public Iterator<Object[]> validContacts() throws IOException {

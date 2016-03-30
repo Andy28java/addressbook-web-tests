@@ -1,6 +1,6 @@
 package ru.kurs.addressbook.tests;
 
-import org.omg.CORBA.Object;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;

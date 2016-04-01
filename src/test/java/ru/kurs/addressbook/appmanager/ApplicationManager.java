@@ -26,6 +26,7 @@ public class ApplicationManager {
     private GroupHelper groupHelper;
     private ContactHelper contactHelper;
     private String browser;
+    private DbHelper dbHelper;
 
     public ApplicationManager(String browser)  {
         properties = new Properties();
@@ -38,7 +39,9 @@ public class ApplicationManager {
         //System.out.println("We are here: " + pwd.getAbsolutePath());
 
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
-          if (browser.equals(BrowserType.FIREFOX)) {
+        dbHelper = new DbHelper();
+
+        if (browser.equals(BrowserType.FIREFOX)) {
             wd = new FirefoxDriver();
         } else if (browser.equals(BrowserType.CHROME)) {
             wd = new ChromeDriver();
@@ -55,6 +58,7 @@ public class ApplicationManager {
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
         sessionHelper.login(properties.getProperty("web.adminLogin"),properties.getProperty("web.adminPassword"));
+
     }
 
     public void login(String username, String userpasswd) {
@@ -88,4 +92,6 @@ public class ApplicationManager {
     public ContactHelper contact() {
         return contactHelper;
     }
+
+    public DbHelper db() {return dbHelper;}
 }

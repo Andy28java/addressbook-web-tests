@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import ru.kurs.addressbook.model.ContactData;
 import ru.kurs.addressbook.model.Contacts;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +34,12 @@ public class ContactHelper extends HelperBase {
         type(By.name("company"), data.getCompany());
         type(By.name("home"), data.getHomephone());
         type(By.name("email2"), data.getEmail2());
-        //attach(By.name("photo"), data.getPhoto());
+        type(By.name("address"), data.getAddress());
+
+        File photo = data.getPhoto();
+        if (photo != null && photo.isFile()) {
+            attach(By.name("photo"), photo);
+        }
     }
 
     /*public void editContact(int index) {

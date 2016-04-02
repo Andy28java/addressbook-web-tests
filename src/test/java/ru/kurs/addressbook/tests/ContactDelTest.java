@@ -20,7 +20,7 @@ public class ContactDelTest extends TestBase {
     public  void ensurePreconditionsCont() {
         final ContactHelper h = app.contact();
         app.goTo().homePage();
-        if (app.contact().all().size() == 0) {   //!h.hasContacts()) {
+        if (app.db().contacts().size() == 0) {   //!h.hasContacts()) {
             h.addContact();
             h.fillCont(new ContactData()
                     .withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Surov").withNickname("SPI")
@@ -33,12 +33,12 @@ public class ContactDelTest extends TestBase {
         final ContactHelper h = app.contact();
         final NavigationHelper n = app.goTo();
         n.homePage();
-        Contacts before = (Contacts) h.all();
+        Contacts before = app.db().contacts();//(Contacts) h.all();
         ContactData deletedContact = before.iterator().next();
        h.selectContactById(deletedContact.getId());
         h.deleteSelectedContact();
         n.homePage();
-        Contacts after = (Contacts) h.all();
+        Contacts after = app.db().contacts();//(Contacts) h.all();
 
         assertEquals(after.size(),before.size() - 1);
         assertThat(after, equalTo(before.without(deletedContact)) );

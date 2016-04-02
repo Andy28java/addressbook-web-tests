@@ -40,9 +40,9 @@ public class ContactData {
     @Type(type = "text")
     private String workphone;
     @Transient
-    private PhoneInfo phones = new PhoneInfo();
-    @Expose
-    @Transient
+    private PhoneInfo phones = PhoneInfo.getInfo("");
+    @Column(name = "address")
+    @Type(type = "text")
     private String address;
     @Transient
     private EmailInfo emails = new EmailInfo();
@@ -65,7 +65,10 @@ public class ContactData {
     }
 
     public File getPhoto() {
-        return new File(photo);
+        if (photo != null) {
+            return new File(photo);
+        }
+        return null;
     }
 
     public ContactData withPhoto(File photo) {
@@ -104,6 +107,11 @@ public class ContactData {
     public PhoneInfo getPhones() {
         return phones;
     }
+
+    public void syncPhoneInfoWithDB() {
+        phones = PhoneInfo.getInfo(homephone, mobilephone, workphone);
+    }
+
     public ContactData  withEmails(String e) {
         emails = EmailInfo.getInfo(e);
         return this;
@@ -312,9 +320,17 @@ public class ContactData {
         String w, m, h;
         String phones;
 
+        private PhoneInfo() {
+            w = "";
+            m = "";
+            h = "";
+            phones = "";
+        }
+
         private static String cleaned(String phone){
             return phone.replaceAll("[-() \t]", "");
         }
+
         private void updatePhones() {
             String[] all = new String[] { h, m, w};
 
@@ -374,6 +390,20 @@ public class ContactData {
             return p;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            PhoneInfo phoneInfo = (PhoneInfo) o;
+
+            return phones != null ? phones.equals(phoneInfo.phones) : phoneInfo.phones == null;
+        }
+
+        @Override
+        public int hashCode() {
+            return phones != null ? phones.hashCode() : 0;
+        }
     }
 
     @Override
@@ -384,18 +414,47 @@ public class ContactData {
         ContactData that = (ContactData) o;
 
         if (id != that.id) return false;
-        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null)
+            return false;
         if (middlename != null ? !middlename.equals(that.middlename) : that.middlename != null) return false;
-        return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
+        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null)
+            return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null)
+            return false;
+        if (company != null ? !company.equals(that.company) : that.company != null)
+            return false;
+        if (phones != null ? !phones.equals(that.phones) : that.phones != null)
+            return false;
+        if (address != null ? !address.equals(that.address) : that.address != null)
+            return false;
+        if (emails != null ? !emails.equals(that.emails) : that.emails != null)
+            return false;
+        if (photo != null ? that.photo == null : that.photo != null)  {
+            return  false;
+        }
 
+        return true;
     }
 
     @Override
     public int hashCode() {
+
         int result = id;
+
         result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (middlename != null ? middlename.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (company != null ? company.hashCode() : 0);
+        /*
+        result = 31 * result + (phones != null ? phones.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (emails != null ? emails.hashCode() : 0);
+        result = 31 * result + (photo != null ? photo.hashCode() : 0);
+        */
         return result;
+
+        //return super.hashCode();
+
     }
 }

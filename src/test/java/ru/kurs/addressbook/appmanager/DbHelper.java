@@ -40,6 +40,10 @@ public class DbHelper {
         List<ContactData> result = session.createQuery( "from ContactData where deprecated = '0000-00-00'" ).list();
         session.getTransaction().commit();
         session.close();
+        for (ContactData d : result) {
+            d.syncPhoneInfoWithDB();
+
+        }
         return new Contacts(result);
     }
 }

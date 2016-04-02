@@ -56,12 +56,12 @@ public class CreateNewGroupJ extends TestBase {
     }
 
     @Test(dataProvider = "validGroupsFromJson")//(enabled = false)
-    public void testCreaNewGroupJ(GroupData group) {
+    public void testCreateNewGroupJ(GroupData group) {
             app.goTo().groupPage();
-            Groups before = app.group().all();
+            Groups before = app.db().groups();//app.group().all();
             app.group().create(group);
             app.goTo().groupPage();
-            Groups after = app.group().all();
+            Groups after = app.db().groups();//app.group().all();
             assertThat(after.size(), equalTo(before.size() + 1));
 
             assertThat(after, equalTo(

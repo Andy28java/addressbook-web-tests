@@ -16,7 +16,7 @@ public class GroupDelTest extends TestBase {
     public void ensurePreconditions(){
         final GroupHelper h = app.group();
         app.goTo().groupPage();
-        if (app.group().all().size() == 0) {   //!h.hasGroups()) {
+        if (app.db().groups().size() == 0) {   //!h.hasGroups()) {
             h.create(new GroupData().withName("test_create_if_does_not_exist"));  //"test_create_if_does_not_exist", "66", "777");
             app.goTo().groupPage();
         }
@@ -29,10 +29,11 @@ public class GroupDelTest extends TestBase {
     public void testGroupDel() {
         app.goTo().groupPage();
         GroupHelper h = app.group();
-        Groups before = app.group().all();
+        Groups before = app.db().groups();//app.group().all();
         GroupData deletedGroup = before.iterator().next();
         app.group().delete(deletedGroup);
-        Groups after = app.group().all();
+        app.goTo().groupPage();
+        Groups after = app.db().groups();//app.group().all();
         assertEquals(after.size(), before.size() - 1);
         assertThat(after, equalTo(before.without(deletedGroup)));
     }

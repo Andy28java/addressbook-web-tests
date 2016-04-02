@@ -66,22 +66,22 @@ public class CreateNewContactTest extends TestBase {
 
         final ContactHelper h = app.contact();
         app.goTo().homePage();
-        Contacts before = (Contacts) app.contact().all();
-        File photo = new File("/src/test/resources/jivotnie-1656.gif");
+        Contacts before = app.db().contacts();//(Contacts) app.contact().all();
+
+        File photo = new File("src/test/resources/jivotnie-1656.png");
+        contact = contact.withPhoto(photo);
         //ContactData contact = new ContactData().withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Durov").withPhoto(photo);
         h.addContact();
         h.fillCont(contact);
         h.submit();
         app.goTo().homePage();
-        Contacts after = (Contacts) h.all();
+        Contacts after = app.db().contacts();//(Contacts) h.all();
 
         Assert.assertEquals(after.size(), before.size() + 1);
         contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt());
         before.add(contact);
-        Assert.assertEquals(before, after);
 
-        assertThat(after, equalTo(before.withAdded(
-                contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+        assertThat(after, equalTo(before));
     }
 
 

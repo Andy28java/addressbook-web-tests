@@ -11,6 +11,7 @@ import ru.kurs.addressbook.appmanager.ContactHelper;
 import ru.kurs.addressbook.model.ContactData;
 import ru.kurs.addressbook.model.Contacts;
 import ru.kurs.addressbook.model.GroupData;
+import ru.kurs.addressbook.model.Groups;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class CreateNewContactTest extends TestBase {
 
     @Test(dataProvider = "validContactsFromJson")//(enabled = false)
     public void createNewContact(ContactData contact) {
-
+        Groups groups = app.db().groups();
         final ContactHelper h = app.contact();
         app.goTo().homePage();
         Contacts before = app.db().contacts();//(Contacts) app.contact().all();

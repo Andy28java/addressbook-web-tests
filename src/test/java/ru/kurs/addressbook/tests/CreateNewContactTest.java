@@ -63,7 +63,7 @@ public class CreateNewContactTest extends TestBase {
     }
 
     @Test(dataProvider = "validContactsFromJson")//(enabled = false)
-    public void createNewContact(ContactData contact) {
+    /*public void createNewContact(ContactData contact) {
         Groups groups = app.db().groups();
         final ContactHelper h = app.contact();
         app.goTo().homePage();
@@ -74,6 +74,22 @@ public class CreateNewContactTest extends TestBase {
         //ContactData contact = new ContactData().withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Durov").withPhoto(photo);
         h.addContact();
         h.fillCont(contact);
+        h.submit();
+        app.goTo().homePage();
+        Contacts after = app.db().contacts();//(Contacts) h.all();*/
+    public void createNewContact(ContactData contact) {
+        Groups groups = app.db().groups();
+        // TODO: check if there are groups
+        final ContactHelper h = app.contact();
+        File photo = new File("src/test/resources/jivotnie-1656.png");
+        contact = contact.withPhoto(photo).inGroup(groups.iterator().next());
+        app.goTo().homePage();
+        Contacts before = app.db().contacts();//(Contacts) app.contact().all();
+
+
+        //ContactData contact = new ContactData().withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Durov").withPhoto(photo);
+        h.addContact();
+        h.fillCont(contact, true);
         h.submit();
         app.goTo().homePage();
         Contacts after = app.db().contacts();//(Contacts) h.all();

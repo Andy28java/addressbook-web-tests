@@ -4,8 +4,8 @@
     "middlename": "Petrovich 0",
     "lastname": "Durov 0",
     "address": "USA,First St,225 0"
-  },
-  {
+  }
+/*  {
     "firstname": "Ivan2 1",
     "middlename": "Petrovich 1",
     "lastname": "Durov 1",
@@ -22,5 +22,5 @@
     "middlename": "Petrovich 3",
     "lastname": "Durov 3",
     "address": "USA,First St,225 3"
-  }
+  }*/
 ]

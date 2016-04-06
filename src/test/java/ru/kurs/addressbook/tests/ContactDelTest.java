@@ -24,7 +24,7 @@ public class ContactDelTest extends TestBase {
             h.addContact();
             h.fillCont(new ContactData()
                     .withFirstname("Ivan2").withMiddlename("Petrovich").withLastname("Surov").withNickname("SPI")
-                    .withCompany("Testing").withHomephone("1234567").withEmail2("qwe@mail.ru"));
+                    .withCompany("Testing").withHomephone("1234567").withEmail2("qwe@mail.ru"), true);
             h.submit();
         }
     }

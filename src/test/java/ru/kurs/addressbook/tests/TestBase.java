@@ -34,7 +34,7 @@ public class TestBase {
     protected static final ApplicationManager app;
 
     static {
-        String browser = System.getProperty("browser");
+        String browser = System.getProperty("browser", "firefox");
 
         if (browser == null || browser.isEmpty()) {
             throw new RuntimeException("No browser property");

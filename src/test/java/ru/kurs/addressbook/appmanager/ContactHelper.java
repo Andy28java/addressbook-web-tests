@@ -4,8 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.kurs.addressbook.model.ContactData;
 import ru.kurs.addressbook.model.Contacts;
+import ru.kurs.addressbook.model.GroupData;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ public class ContactHelper extends HelperBase {
     public void addContact() {
         click(By.linkText("add new"));
     }
-    public void fillCont(ContactData data) {
+    public void fillCont(ContactData data, boolean creation) {
         type(By.name("firstname"), data.getFirstname());
         type(By.name("middlename"), data.getMiddlename());
         type(By.name("lastname"), data.getLastname());
@@ -40,6 +43,16 @@ public class ContactHelper extends HelperBase {
         if (photo != null && photo.isFile()) {
             attach(By.name("photo"), photo);
         }
+        if (creation){
+            if (data.getGroups().size() > 0) {
+                Assert.assertTrue(data.getGroups().size()== 1);
+                new Select(wd.findElement(By.name("new_group")))
+                        .selectByVisibleText(data.getGroups().iterator().next().getName());
+            }
+            else {
+                Assert.assertFalse(isElementPresent(By.name("new_group")));
+            }
+        }
     }
 
     /*public void editContact(int index) {
@@ -51,6 +64,16 @@ public class ContactHelper extends HelperBase {
 
     public void viewContact(int id) {
         click(By.cssSelector("a[href='view.php?id=" + id + "']"));
+    }
+
+    public void addToGroup(GroupData g) {
+        new Select(wd.findElement(By.name("to_group")))
+                .selectByVisibleText(g.getName());
+        click(By.name("add"));
+    }
+    public void choiceGroup(GroupData g) {
+        new Select(wd.findElement(By.name("group")))
+                .selectByVisibleText(g.getName());
     }
 
     public void editContact1(int id) {
@@ -71,7 +94,7 @@ public class ContactHelper extends HelperBase {
     }
     public void modify( ContactData modifiedContact) {
         editContact(modifiedContact.getId());
-        fillCont(modifiedContact);
+        fillCont(modifiedContact, false);
         update();
         app.goTo().homePage();
     }
@@ -108,6 +131,10 @@ public class ContactHelper extends HelperBase {
             return false;
         }
 
+    }
+
+    public void remove() {
+        click(By.name("remove"));
     }
 
     public void submit() {

@@ -61,6 +61,7 @@ public abstract class HelperBase {
         }
     }
 
+
     protected void acceptAlert() {
         try {
             Alert a = wd.switchTo().alert();

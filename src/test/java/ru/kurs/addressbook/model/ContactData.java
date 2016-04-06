@@ -56,10 +56,14 @@ public class ContactData {
         return new Groups(groups);
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id")
             , inverseJoinColumns = @JoinColumn(name = "group_id"))
     private Set<GroupData> groups = new HashSet<GroupData>();
+    public ContactData inGroup(GroupData g) {
+        groups.add(g);
+        return this;
+    }
 
     @Column(name = "photo")
     @Type(type = "text")

@@ -33,7 +33,6 @@ public class AddContactToGroupTest extends TestBase {
     public void prepareTest() {
         Contacts contacts = app.db().contacts();
         Groups groups = app.db().groups();
-
         // select contact for the test
         theContact = null;
         groupToAdd = null;
@@ -66,7 +65,6 @@ public class AddContactToGroupTest extends TestBase {
         }
         if (groupToAdd == null) {
             groupToAdd = new GroupData().withName("New group for Vasya");
-
             // create the group if needed;
             app.goTo().groupPage();
             app.group().create(groupToAdd);
@@ -75,15 +73,11 @@ public class AddContactToGroupTest extends TestBase {
 
     @Test
     public void addContactToGroup() {
-        // now we can add contact to the group
         app.goTo().homePage();
         app.contact().selectContactById(theContact.getId());
-
-        // check group in the list
         app.contact().addToGroup(groupToAdd);
         System.out.printf("Add to group \"%s\": %s\n", groupToAdd.getName(), theContact);
 
-        // check if the group was added
         Contacts after = app.db().contacts();
         Groups newGroupsList = null;
         for (ContactData c : after) {
@@ -103,10 +97,21 @@ public class AddContactToGroupTest extends TestBase {
             }
         }
 
+        GroupData ug = null;
+        Groups groups = app.db().groups();
+        for (GroupData g : groups) {
+            if (g.getId() == groupToAdd.getId()) {
+                ug = g;
+                break;
+            }
+        }
+        Assert.assertTrue(ug != null);
+
         Assert.assertTrue(newGroupFound, "Test failed: no new group");
         app.goTo().homePage();
-        app.contact().choiceGroup(groupToAdd);
-         Contacts contactsOnPage = app.contact().all();
-        assertThat(contactsOnPage, equalTo(groupToAdd.getContacts()));
+        app.contact().choiceGroup(ug);
+        Contacts contactsOnPage = app.contact().all();
+        Contacts contactsInDB = ug.getContacts();
+        assertThat(contactsOnPage, equalTo(contactsInDB));
     }
 }

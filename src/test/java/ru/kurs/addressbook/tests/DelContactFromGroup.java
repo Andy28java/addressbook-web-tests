@@ -100,19 +100,27 @@ public class DelContactFromGroup extends TestBase {
         for (ContactData c : after) {
             if (theContact.getId() == c.getId()) {
                 modified = c;
-                return;
+                break;
             }
         }
 
+        GroupData ug = null;
+        for (GroupData g : app.db().groups()) {
+            if (g.getId() == groupFromDel.getId()) {
+                ug = g;
+                break;
+            }
+        }
         Assert.assertTrue(modified != null, "No modified contact with ID " + theContact.getId());
+        Assert.assertTrue(ug != null);
 
-        Assert.assertFalse(modified.getGroups().contains(groupFromDel), "Still a member of " + groupFromDel.getName());
-        Assert.assertFalse(groupFromDel.getContacts().contains(modified));
+        Assert.assertFalse(modified.getGroups().contains(ug), "Still a member of " + ug.getName());
+        Assert.assertFalse(ug.getContacts().contains(modified));
 
         app.goTo().homePage();
-        app.contact().choiceGroup(groupFromDel);
+        app.contact().choiceGroup(ug);
         Contacts contactsOnPage = app.contact().all();
-
-        assertThat(contactsOnPage, equalTo(groupFromDel.getContacts()));
+        Contacts contactsInDB = ug.getContacts();
+        assertThat(contactsOnPage, equalTo(contactsInDB));
     }
 }

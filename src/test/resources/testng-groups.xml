@@ -3,9 +3,9 @@
 <suite name="Suite1" verbose="1" >
     <test name="Grops" >
         <classes>
-            <class name="ru.kurs.addressbook.tests.CreateNewGroupJ" />
+            <!--- <class name="ru.kurs.addressbook.tests.CreateNewGroupJ" /> -->
             <class name="ru.kurs.addressbook.tests.GroupModificationTest" />
-            <class name="ru.kurs.addressbook.tests.GroupDelTest" />
+            <!--- <class name="ru.kurs.addressbook.tests.GroupDelTest" /> -->
         </classes>
     </test>
 

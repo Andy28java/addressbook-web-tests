@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CreateNewGroupJ extends TestBase {
-    //Logger logger = LoggerFactory.getLogger(CreateNewGroupJ.class);
+public class CreateNewGroup extends TestBase {
+    //Logger logger = LoggerFactory.getLogger(CreateNewGroup.class);
 
     @DataProvider
     public Iterator<Object[]> validGroupsFromXml() throws IOException {
